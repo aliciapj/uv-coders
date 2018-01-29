@@ -3,9 +3,7 @@ from pathlib import Path
 import os
 
 from parse import parse
-from writer import write, Slice
-from utils import print_pizza
-
+from writer import write
 
 
 
