@@ -31,7 +31,7 @@ def solve(world):
     while True:
         # search for first available cell
         row, col = find_cell(world)
-        if row == None and col == None:
+        if row is None and col is None:
             # don't have any available cells
             return solution
 
