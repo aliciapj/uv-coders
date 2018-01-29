@@ -60,7 +60,7 @@ def expand_slice(world, slice):
             slices.append(new_slice)
 
     # expand right
-    if slice.col_init != col_count-1:
+    if slice.col_end != col_count-1:
         new_slice = Slice(slice.row_init, slice.col_init, slice.row_end, slice.col_end+1)
         if is_available_slice(world, new_slice) and get_slice_len(new_slice) <= world['max_cells']:
             slices.append(new_slice)
