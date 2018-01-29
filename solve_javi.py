@@ -1,12 +1,18 @@
-from utils import print_pizza, is_valid_slice
+from utils import print_pizza, is_valid_slice, expand_slice
 from writer import Slice
 
 
 def find_slice(world, row, col):
-    slice = Slice(row, col, row, col)
-    m_count, t_count, cell_count = is_valid_slice(world, slice)
+    slices = [Slice(row, col, row, col)]
 
-    return slice
+    while slices:
+        slice = slices.pop()
+        if is_valid_slice(world, slice):
+            return slice
+        else:
+            slices += expand_slice(world, slice)
+
+    return None
 
 
 def find_cell(world):
