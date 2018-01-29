@@ -1,16 +1,31 @@
+import os
 from parse import parse
-from solve_javi import solve
-from utils import is_valid_slice
-from writer import write, Slice
+from writer import write
 
-from solve_javi import solve
+from solve_javi import solve as solve_javi
 
-if __name__ == '__main__':
-    world = parse(input_file='./input_files/input1.txt')
+config = {
+    'solve': solve_javi,
+    'input_files': [
+        'input1.txt',
+        'small.txt',
+        'medium.txt',
+        'large.txt',
+    ]
+}
 
-    # assert not is_valid_slice(world, Slice(0, 0, 0, 0))
-    # assert is_valid_slice(world, Slice(0, 0, 1, 1))
+
+def process_file(solve, input_file):
+    world = parse(input_file=os.path.join('./input_files', input_file))
 
     solution = solve(world)
 
-    write(solution, 'solution.txt')
+    output_file = os.path.basename(os.path.splitext(input_file)[0]) + '_solution.txt'
+    output_file = os.path.join('./output_files', output_file)
+    write(solution, output_file)
+
+
+if __name__ == '__main__':
+    for input_file in config['input_files']:
+        print("processing %s" % (input_file,))
+        process_file(config['solve'], input_file)
