@@ -1,4 +1,4 @@
-from utils import print_pizza, is_valid_slice, expand_slice
+from utils import print_pizza, is_valid_slice, expand_slice, eat_slice
 from writer import Slice
 
 
@@ -39,9 +39,7 @@ def solve(world):
         slice = find_slice(world, row, col)
 
         if slice:
-            for row in range(slice.row_init, slice.row_end + 1):
-                for col in range(slice.col_init, slice.col_end + 1):
-                    world['pizza'][row][col] = 'X'
+            eat_slice(world=world, slice=slice)
             # add to list of slices
             solution.append(slice)
         else:
