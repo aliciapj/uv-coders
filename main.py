@@ -2,7 +2,7 @@ from parse import parse
 from writer import write
 
 world = {
-    'min_ingredients': 1,
+    'min_of_each_ingredient': 1,
     'max_cells': 6,
     'pizza': [
         ['T', 'T', 'T', 'T', 'T'],
