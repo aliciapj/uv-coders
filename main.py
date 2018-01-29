@@ -1,13 +1,13 @@
-import parse from parse
-import write from writer
+from parse import parse
+from writer import write
 
 world = {
-    min_cells: 1,
-    max_cells: 6,
-    pizza: [
-        ['T','T','T','T','T'],
-        ['T','M','M','M','T'],
-        ['T','T','T','T','T'],
+    'min_cells': 1,
+    'max_cells': 6,
+    'pizza': [
+        ['T', 'T', 'T', 'T', 'T'],
+        ['T', 'M', 'M', 'M', 'T'],
+        ['T', 'T', 'T', 'T', 'T'],
     ],
 }
 
@@ -21,4 +21,4 @@ if __name__ == '__main__':
 
     solution = solve(world)
 
-    write(solution,'solution.txt')
+    write(solution, 'solution.txt')
