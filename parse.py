@@ -1,17 +1,16 @@
 def parse(input_file):
 
-    f = open(file=input_file, mode='r')
+    with open(file=input_file, mode='r') as f:
+        rows, cols, min_of_each_ingredient, max_cells = map(int, f.readline().strip().split(' '))
+        pizza = []
+        for row in range(rows):
+            line = f.readline().strip()
+            pizza.append(list(line))
 
-    first_line = f.readline()
-    first_line = first_line.split(' ')
-    pizza = []
-    for line in f:
-        pizza.append([ch for ch in line[:-1]])
-
-    world = dict(
-        min_of_each_ingredient=int(first_line[2]),
-        max_cells=int(first_line[3][:-1]),
-        pizza=pizza
-    )
+        world = {
+            'min_of_each_ingredient': min_of_each_ingredient,
+            'max_cells': max_cells,
+            'pizza': pizza
+        }
 
     return world
