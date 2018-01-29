@@ -22,3 +22,5 @@ def is_valid_slice(world, slice):
            cell_count <= world['max_cells']
 
 
+def get_slice_len(slice):
+    return (slice.row_end - slice.row_init) * (slice.column_end - slice.column_init)
