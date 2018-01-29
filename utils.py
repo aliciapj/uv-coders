@@ -60,7 +60,7 @@ def expand_slice(world, slice):
             slices.append(new_slice)
 
     # expand right
-    if slice.col_end != col_count-1:
+    if slice.col_init != col_count-1:
         new_slice = Slice(slice.row_init, slice.col_init, slice.row_end, slice.col_end+1)
         if is_available_slice(world, new_slice) and get_slice_len(new_slice) <= world['max_cells']:
             slices.append(new_slice)
@@ -72,3 +72,9 @@ def eat_slice(world, slice):
     for row in range(slice.row_init, slice.row_end + 1):
         for col in range(slice.col_init, slice.col_end + 1):
             world['pizza'][row][col] = 'X'
+
+
+def un_eat_slice(world, world_tmp, slice):
+    for row in range(slice.row_init, slice.row_end + 1):
+        for col in range(slice.col_init, slice.col_end + 1):
+            world_tmp['pizza'][row][col] = world['pizza'][row][col]

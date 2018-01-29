@@ -3,8 +3,8 @@ import math
 import copy
 
 from collections import Counter
-from main import world
 from writer import Slice
+from utils import print_pizza, is_valid_slice, expand_slice, un_eat_slice, eat_slice
 
 
 def get_first_appearance(pizza, ingredient):
@@ -15,18 +15,8 @@ def get_first_appearance(pizza, ingredient):
     return -1, -1
 
 
-def get_slice_len(slice):
-    return (slice.row_end - slice.row_init) * (slice.column_end - slice.column_init)
-
-
-def expand(slice, pizza):
-    # strategy: right - left - down - up
-    candidate_index = slice.col_end + 1
-    if candidate_index >= 0 and candidate_index < len(pizza[0]):  # if index is inside the pizza
-         pass
-
-
 def solve(world):
+
     # counting number of ingredients
     pizza = world['pizza']
     plain_pizza = list(itertools.chain.from_iterable(pizza))
@@ -36,22 +26,38 @@ def solve(world):
     # number of slices = round_down(less_common_ing.value / min_ing)
     number_slices = math.floor(less_common_ing[1]/world['min_of_each_ingredient'])
 
-    first_ingredient = get_first_appearance(pizza, less_common_ing[0])
+    tmp_world = copy.deepcopy(world)
 
-    tmp_pizza = copy.deepcopy(pizza)
+    # generate number_slices initial portions
+    slices = []
+    for i in range(number_slices):
+        first_ingredient = get_first_appearance(tmp_world['pizza'], less_common_ing[0])
+        slice = Slice(first_ingredient[0], first_ingredient[1], first_ingredient[0], first_ingredient[1])
+        slices.append(slice)
+        tmp_world['pizza'][slice.row_init][slice.col_init] = 'X'
 
-    # first slice with only this ingredient
-    slice = Slice(first_ingredient[0], first_ingredient[0], first_ingredient[1], first_ingredient[1])
-    tmp_pizza[first_ingredient[0]][first_ingredient[1]] = 'X'
+    result = []
+    new_slices = copy.deepcopy(slices)
+    valid_result = all([is_valid_slice(tmp_world, slice) for slice in slices])
 
-    while get_slice_len(slice) < world['max_cells']:
-        expand(slice, tmp_pizza)
+    while valid_result or len(slices) > 0:
+        result = copy.deepcopy(new_slices)
+        slices = copy.deepcopy(new_slices)
+        new_slices = []
+        for slice in slices:
+            un_eat_slice(world, tmp_world, slice)
+            candidates = expand_slice(tmp_world, slice)
+            if candidates:
+                # TODO explore all candidates instead 1
+                new_slices.append(candidates[0])
+                eat_slice(tmp_world, candidates[0])
+
+        valid_result = all([is_valid_slice(tmp_world, slice) for slice in new_slices])
+
+    print(result)
+
+    print_pizza(tmp_world)
 
 
 
 
-
-
-    return first_slice
-
-print(solve(world))

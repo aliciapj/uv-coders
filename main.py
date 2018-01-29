@@ -3,7 +3,6 @@ from parse import parse
 from writer import write
 
 from solve_javi import solve as solve_javi
-
 config = {
     'solve': solve_javi,
     'input_files': [
