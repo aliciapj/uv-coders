@@ -2,7 +2,7 @@ from parse import parse
 from writer import write
 
 world = {
-    'min_cells': 1,
+    'min_ingredients': 1,
     'max_cells': 6,
     'pizza': [
         ['T', 'T', 'T', 'T', 'T'],
@@ -13,6 +13,7 @@ world = {
 
 
 def solve(world):
+
     return "SOLVED!"
 
 
