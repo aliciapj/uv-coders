@@ -45,6 +45,7 @@ def solve(world):
         else:
             world['pizza'][row][col] = 'X'
 
-        print_pizza(world)
+        # print_pizza(world)
+        print('.')
 
     return solution
