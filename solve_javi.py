@@ -1,4 +1,4 @@
-from utils import print_pizza
+from utils import print_pizza, is_valid_slice
 from writer import Slice
 
 

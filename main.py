@@ -5,6 +5,7 @@ import os
 from parse import parse
 from writer import write
 
+from solve_javi import solve
 
 
 if __name__ == '__main__':
