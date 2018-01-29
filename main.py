@@ -1,5 +1,5 @@
 from parse import parse
-from solve_javi import solve
+from solver_apj import solve
 from writer import write
 
 if __name__ == '__main__':

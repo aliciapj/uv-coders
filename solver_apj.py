@@ -38,9 +38,11 @@ def solve(world):
 
     result = []
     new_slices = copy.deepcopy(slices)
-    valid_result = all([is_valid_slice(tmp_world, slice) for slice in slices])
+    valid_result = all([is_valid_slice(world, slice) for slice in slices])
+    keep_expanding = True
 
-    while valid_result or len(slices) > 0:
+    while len(new_slices) > 0 and keep_expanding:
+        keep_expanding = False
         result = copy.deepcopy(new_slices)
         slices = copy.deepcopy(new_slices)
         new_slices = []
@@ -51,12 +53,19 @@ def solve(world):
                 # TODO explore all candidates instead 1
                 new_slices.append(candidates[0])
                 eat_slice(tmp_world, candidates[0])
+                keep_expanding = True
+            else:
+                eat_slice(tmp_world, slice)
+                new_slices.append(slice)
 
-        valid_result = all([is_valid_slice(tmp_world, slice) for slice in new_slices])
+            print_pizza(tmp_world)
 
+    valid_result = all([is_valid_slice(world, slice) for slice in new_slices])
     print(result)
 
     print_pizza(tmp_world)
+
+    return result
 
 
 
