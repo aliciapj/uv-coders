@@ -72,3 +72,9 @@ def eat_slice(world, slice):
     for row in range(slice.row_init, slice.row_end + 1):
         for col in range(slice.col_init, slice.col_end + 1):
             world['pizza'][row][col] = 'X'
+
+
+def un_eat_slice(world, world_tmp, slice):
+    for row in range(slice.row_init, slice.row_end + 1):
+        for col in range(slice.col_init, slice.col_end + 1):
+            world_tmp['pizza'][row][col] = world['pizza'][row][col]
