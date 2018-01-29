@@ -1,3 +1,4 @@
+from writer import Slice
 
 
 def print_pizza(world):
@@ -23,4 +24,46 @@ def is_valid_slice(world, slice):
 
 
 def get_slice_len(slice):
-    return (slice.row_end - slice.row_init) * (slice.column_end - slice.column_init)
+    return (slice.row_end - slice.row_init + 1) * (slice.col_end - slice.col_init + 1)
+
+
+def is_available_slice(world, slice):
+    for row in range(slice.row_init, slice.row_end + 1):
+        for col in range(slice.col_init, slice.col_end + 1):
+            if world['pizza'][row][col] == 'X':
+                return False
+    return True
+
+
+def expand_slice(world, slice):
+    row_count = len(world['pizza'])
+    col_count = len(world['pizza'][0])
+
+    slices = []
+
+    # expand up
+    if slice.row_init != 0:
+        new_slice = Slice(slice.row_init - 1, slice.col_init, slice.row_end, slice.col_end)
+        if is_available_slice(world, new_slice):
+            slices.append(new_slice)
+
+    # expand down
+    if slice.row_end != row_count:
+        new_slice = Slice(slice.row_init, slice.col_init, slice.row_end+1, slice.col_end)
+        if is_available_slice(world, new_slice):
+            slices.append(new_slice)
+
+    # expand left
+    if slice.col_init != 0:
+        new_slice = Slice(slice.row_init, slice.col_init-1, slice.row_end, slice.col_end)
+        if is_available_slice(world, new_slice):
+            slices.append(new_slice)
+
+    # expand right
+    if slice.col_init != col_count:
+        new_slice = Slice(slice.row_init, slice.col_init, slice.row_end, slice.col_end+1)
+        if is_available_slice(world, new_slice):
+            slices.append(new_slice)
+
+    return slices
+
