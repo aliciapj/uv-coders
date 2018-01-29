@@ -1,5 +1,6 @@
 from parse import parse
-from writer import write
+from writer import write, Slice
+
 
 world = {
     'min_of_each_ingredient': 1,
@@ -12,9 +13,17 @@ world = {
 }
 
 
+
+
+
 def solve(world):
 
-    return "SOLVED!"
+    # search for first available ingredient
+
+    # try to find a suitable slice
+
+    # add to list of slices
+    return solution
 
 
 if __name__ == '__main__':
