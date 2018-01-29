@@ -72,3 +72,10 @@ def eat_slice(world, slice):
     for row in range(slice.row_init, slice.row_end + 1):
         for col in range(slice.col_init, slice.col_end + 1):
             world['pizza'][row][col] = 'X'
+
+
+def calculate_score(slices):
+    result = 0
+    for slice in slices:
+        result += get_slice_len(slice)
+    return result
