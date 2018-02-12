@@ -1,10 +1,9 @@
 # writer.py
-from sets import Set
 
 solution_test = { # cache_id -> video_ids
-    0: Set([2]),
-    1: Set([3, 1]),
-    2: Set([0, 1]),
+    0: set([2]),
+    1: set([3, 1]),
+    2: set([0, 1]),
 }
 
 def write(solution, output_file):
