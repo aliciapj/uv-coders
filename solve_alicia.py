@@ -24,13 +24,16 @@ def solve(world):
         video_in_cache = is_video_in_caches(most_requested['video'], caches, caches_info)
 
         if not video_in_cache:
+            sorted_caches = sorted(endpoint['cache_latency'].items(), key=lambda t: t[1], reverse=False)
+
             # añadir
-            for cache in caches:
+            for cache in sorted_caches:
                 video_size = world['videos'][most_requested['video']]
-                remaining_in_cache = caches_info[cache]['data_remain']
+                cache_id = cache[0]
+                remaining_in_cache = caches_info[cache_id]['data_remain']
                 if video_size <= remaining_in_cache:
-                    caches_info[cache]['data_remain'] -= video_size
-                    caches_info[cache]['videos'].append(most_requested['video'])
+                    caches_info[cache_id]['data_remain'] -= video_size
+                    caches_info[cache_id]['videos'].append(most_requested['video'])
                     break
         else:
             # todo optimizar luego
