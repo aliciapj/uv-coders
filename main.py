@@ -1,4 +1,5 @@
 import os
+import sys
 from parse import parse
 from writer import write
 
@@ -26,6 +27,10 @@ def process_file(solve, input_file):
 
 
 if __name__ == '__main__':
+    if sys.version_info < (3, 0):
+        print("python3 needed")
+        sys.exit(1)
+
     for input_file in config['input_files']:
         print("processing %s" % (input_file,))
         process_file(config['solve'], input_file)
