@@ -9,10 +9,10 @@ from solve_javi import solve as solve_javi
 config = {
     'solve': solve_javi,
     'input_files': [
-        'input1.txt',
-        # 'small.txt',
-        # 'medium.txt',
-        # 'large.txt',
+        'me_at_the_zoo.in',
+        'videos_worth_spreading.in',
+        'trending_today.in',
+        'kittens.in',
     ]
 }
 
