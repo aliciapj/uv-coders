@@ -8,5 +8,23 @@ def get_output_file(input_file):
     return output_file
 
 
+TOO_BIG_LATENCY = 1000000
+
+
 def calculate_score(world, solution):
-    return 0
+    score = 0
+    total_requests = 0
+    for request in world['requests']:
+        endpoint = world['endpoints'][request['endpoint']]
+        caches_containing_video = [cache_id for (cache_id, videos) in solution.items() if request['video'] in videos]
+        min_latency = min((endpoint['cache_latency'].get(cache, TOO_BIG_LATENCY) for cache in caches_containing_video),
+                          default=None)
+        latency_to_data_center = endpoint['datacenter_latency']
+
+        if min_latency and min_latency < latency_to_data_center:
+            time_saved = latency_to_data_center - min_latency
+            score += time_saved * request['count']
+
+        total_requests += request['count']
+
+    return score * 1000 / total_requests
