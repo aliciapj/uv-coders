@@ -26,6 +26,7 @@ def process_file(solve, input_file):
     score = calculate_score(world, solution)
     print("SCORE: %d" % score)
     write(solution, output_file)
+    return score
 
 
 if __name__ == '__main__':
@@ -33,5 +34,8 @@ if __name__ == '__main__':
         print("python3 needed")
         sys.exit(1)
 
+    total_score = 0
     for input_file in config['input_files']:
-        process_file(config['solve'], input_file)
+        total_score += process_file(config['solve'], input_file)
+
+    print('TOTAL SCORE: %d' % total_score)
