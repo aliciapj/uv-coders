@@ -8,36 +8,44 @@ def is_video_in_caches(video, caches, caches_info):
 
 def solve(world):
 
-    solution = []
     caches_info = [{'data_remain': world['cache_size'], 'videos': []} for cache in world['caches']]
+    old_len_cache = -1
+    new_len_cache = sum([len(cache['videos']) for cache in caches_info])
+    i = 0
 
-    # recorrer los endpoints
-    for endpoint_id, endpoint in enumerate(world['endpoints']):
+    while new_len_cache != old_len_cache and i < 10:
 
-        # filtrar los videos del endpoint
-        requests = [request for request in world['requests'] if request['endpoint'] == endpoint_id]
-        videos = sorted(requests, key=lambda t: t['count'])
+        old_len_cache = new_len_cache
+        # recorrer los endpoints
+        for endpoint_id, endpoint in enumerate(world['endpoints']):
 
-        most_requested = videos[-1]
-        caches = endpoint['cache_latency'].keys()
+            # filtrar los videos del endpoint
+            requests = [request for request in world['requests'] if request['endpoint'] == endpoint_id]
+            videos = sorted(requests, key=lambda t: t['count'], reverse = True)
 
-        video_in_cache = is_video_in_caches(most_requested['video'], caches, caches_info)
+            caches = endpoint['cache_latency'].keys()
 
-        if not video_in_cache:
-            sorted_caches = sorted(endpoint['cache_latency'].items(), key=lambda t: t[1], reverse=False)
-
-            # añadir
-            for cache in sorted_caches:
-                video_size = world['videos'][most_requested['video']]
-                cache_id = cache[0]
-                remaining_in_cache = caches_info[cache_id]['data_remain']
-                if video_size <= remaining_in_cache:
-                    caches_info[cache_id]['data_remain'] -= video_size
-                    caches_info[cache_id]['videos'].append(most_requested['video'])
+            most_requested = None
+            for video in videos:
+                if not is_video_in_caches(video['video'], caches, caches_info):
+                    most_requested = video
                     break
-        else:
-            # todo optimizar luego
-            pass
+
+            if most_requested:
+                sorted_caches = sorted(endpoint['cache_latency'].items(), key=lambda t: t[1])
+
+                # añadir
+                for cache in sorted_caches:
+                    video_size = world['videos'][most_requested['video']]
+                    cache_id = cache[0]
+                    remaining_in_cache = caches_info[cache_id]['data_remain']
+                    if video_size <= remaining_in_cache:
+                        caches_info[cache_id]['data_remain'] -= video_size
+                        caches_info[cache_id]['videos'].append(most_requested['video'])
+                        break
+
+        new_len_cache = sum([len(cache['videos']) for cache in caches_info])
+        i += 1
 
     solution = {i: set(cache['videos']) for i, cache in enumerate(caches_info)}
 
