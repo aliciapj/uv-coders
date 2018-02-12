@@ -1,7 +1,7 @@
 import os
 import sys
 from parse import parse
-from utils import get_output_file
+from utils import get_output_file, calculate_score
 from writer import write
 
 from solve_javi import solve as solve_javi
@@ -23,6 +23,8 @@ def process_file(solve, input_file):
 
     world = parse(input_file=os.path.join('./input_files', input_file))
     solution = solve(world)
+    score = calculate_score(world, solution)
+    print("SCORE: %d" % score)
     write(solution, output_file)
 
 
