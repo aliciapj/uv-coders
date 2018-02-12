@@ -17,6 +17,13 @@ TOO_BIG_LATENCY = 1000000
 
 
 def calculate_score(world, solution):
+
+    # first check that cache capacity has not been exceeded
+    for cache_id, videos in solution.items():
+        size_of_videos_in_cache = sum(world['videos'][video_id] for video_id in videos)
+        if size_of_videos_in_cache > world['caches'][cache_id]:
+            print("BAD SOLUTION: cache %d contains videos with %d Mb > %d Mb" % (cache_id, size_of_videos_in_cache, world['caches'][cache_id]))
+
     score = 0
     total_requests = 0
     for request in world['requests']:
