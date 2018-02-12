@@ -1,10 +1,12 @@
 # parse.py
 def parse(input_file):
     with open(file=input_file, mode='r') as f:
-        # rows, cols, min_of_each_ingredient, max_cells = map(int, f.readline().strip().split(' '))
+        rows, cols, min_of_each_ingredient, max_cells = map(int, f.readline().strip().split(' '))
         # pizza = [list(f.readline().strip()) for _ in range(rows)]
 
         world = {
+            'cache_size': 100,
+            'caches': [100, 100, 100],
             'videos': [50, 50, 80, 30, 110],  # array de MBs
             'endpoints': [   # datacenter_latency: number, cache_latency: {id_cache: latency}
                 {'datacenter_latency': 1000,
