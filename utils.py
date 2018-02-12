@@ -8,6 +8,11 @@ def get_output_file(input_file):
     return output_file
 
 
+def analyze_world(world):
+    print("total capacity: %d" % sum(world['caches']))
+    print("total video size: %d" % sum(world['videos']))
+
+
 TOO_BIG_LATENCY = 1000000
 
 
