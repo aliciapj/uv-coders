@@ -2,11 +2,11 @@ import os
 import sys
 import time
 
-from parse import parse
-from utils import get_output_file, calculate_score, analyze_world
-from writer import write
+from videos.parse import parse
+from videos.utils import get_output_file, calculate_score
+from videos.writer import write
 
-from solve_javi import solve as solve_javi
+from videos.solve_javi import solve as solve_javi
 
 config = {
     'solve': solve_javi,
