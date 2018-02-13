@@ -31,7 +31,7 @@ def parse(input_file):
         # parsing requests
         world['requests'] = []
         for _ in range(request_count):
-            video_id, endpoint_id, request_count= [int(data) for data in f.readline().strip().split(' ')]
+            video_id, endpoint_id, request_count = [int(data) for data in f.readline().strip().split(' ')]
             world['requests'].append(
                 {
                     'endpoint': endpoint_id,
@@ -44,7 +44,7 @@ def parse(input_file):
             'cache_size': 100,
             'caches': [100, 100, 100],
             'videos': [50, 50, 80, 30, 110],  # array de MBs
-            'endpoints': [   # datacenter_latency: number, cache_latency: {id_cache: latency}
+            'endpoints': [  # datacenter_latency: number, cache_latency: {id_cache: latency}
                 {'datacenter_latency': 1000,
                  'cache_latency': {
                      0: 100,
