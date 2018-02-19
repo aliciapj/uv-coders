@@ -1,5 +1,5 @@
 import unittest
-from parse import parse, UNAVAIBLE, AVAILABLE
+from parse import parse, UNAVAILABLE, AVAILABLE
 from utils import calculate_score
 
 
@@ -12,7 +12,7 @@ class TestCalculateScore(unittest.TestCase):
 
         # sample solution
         self.world['rows'] = [
-            [UNAVAIBLE, 0, 0, 0, 3],
+            [UNAVAILABLE, 0, 0, 0, 3],
             [1, 1, 1, 2, 2]
         ]
         self.world['pools'] = [

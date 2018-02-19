@@ -1,7 +1,7 @@
 # parse.py
 from collections import namedtuple
 
-UNAVAIBLE = -2
+UNAVAILABLE = -2
 AVAILABLE = -1
 
 
