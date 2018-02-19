@@ -14,4 +14,5 @@ def analyze_world(world):
 
 
 def calculate_score(world, solution):
+
     return 0
