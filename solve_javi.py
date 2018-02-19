@@ -23,28 +23,34 @@ def find_space(row, slots):
     return None
 
 
-def find_row_with_space(rows, next_row, slots):
-    row_count = len(rows)
-    first_row = next_row
-    while True:
-        slot = find_space(rows[next_row], slots)
-        if not slot is None:
-            return next_row, slot
-        next_row = (next_row + 1) % row_count
-        if next_row == first_row:
-            return next_row, None
+def find_row_with_space(rows, slots):
+    rows_without_space = []
+    while rows:
+        capacity, row = heappop(rows)
+        slot = find_space(row, slots)
+        if slot is not None:
+            for r in rows_without_space:
+                heappush(rows, r)
+            return row, slot, capacity
+        else:
+            rows_without_space.append((capacity, row))
+
+    for r in rows_without_space:
+        heappush(rows, r)
+
+    return None, None, None
 
 
 def servers_into_rows(world):
     servers = sorted(world['servers'], key=lambda s: s.capacity / s.size, reverse=True)
 
-    row_count = len(world['rows'])
-    next_row = 0
+    rows = [(0, row) for row in world['rows']]
     while servers:
         next_server = servers.pop(0)
-        next_row, slot = find_row_with_space(world['rows'], next_row, next_server.size)
-        if not slot is None:
-            world['rows'][next_row][slot:slot + next_server.size] = [next_server.id] * next_server.size
+        row, slot, capacity = find_row_with_space(rows, next_server.size)
+        if row:
+            row[slot:slot + next_server.size] = [next_server.id] * next_server.size
+            heappush(rows, (capacity + next_server.capacity, row))
 
 
 def servers_into_pools(world):
@@ -56,7 +62,6 @@ def servers_into_pools(world):
     for r in servers_by_rows:
         print(r)
 
-    # next_pool = 0
     next_row = 0
     row_count = len(world['rows'])
     pool_count = world['pool_counts']
