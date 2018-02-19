@@ -1,6 +1,9 @@
 # parse.py
 from collections import namedtuple
 
+UNAVAIBLE = -2
+AVAILABLE = -1
+
 
 def parse(input_file):
     with open(file=input_file, mode='r') as f:
