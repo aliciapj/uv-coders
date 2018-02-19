@@ -1,5 +1,5 @@
 from parse import UNAVAILABLE, AVAILABLE
-from utils import servers_in_row
+from utils import servers_in_row, analyze_capacity_per_row, analyze_capacity_per_pool
 
 
 # solve.py
@@ -9,7 +9,9 @@ def solve_simple(world):
     #     [1, 1, 1, 2, 2]
     # ]
     servers_into_rows(world)
+    analyze_capacity_per_row(world)
     world['pools'] = servers_into_pools(world)
+    analyze_capacity_per_pool(world)
     return world
 
 

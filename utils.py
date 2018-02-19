@@ -24,9 +24,23 @@ def servers_in_row(world, row):
 
 
 def analyze_capacity_per_row(world):
+    min_capacity, max_capacity = 800000, 0
     for row_id, row in enumerate(world['rows']):
         row_capacity = sum(server.capacity for server in servers_in_row(world, row))
-        print('row %d, capacity: %d', row_id, row_capacity)
+        max_capacity = max(max_capacity, row_capacity)
+        min_capacity = min(min_capacity, row_capacity)
+        print('row %d, capacity: %d' % (row_id, row_capacity))
+    print('max-min: %d' % (max_capacity - min_capacity,))
+
+
+def analyze_capacity_per_pool(world):
+    min_capacity, max_capacity = 800000, 0
+    for pool_id, pool in enumerate(world['pools']):
+        pool_capacity = sum(world['servers'][server_id].capacity for server_id in pool)
+        max_capacity = max(max_capacity, pool_capacity)
+        min_capacity = min(min_capacity, pool_capacity)
+        print('pool %d, capacity: %d' % (pool_id, pool_capacity))
+    print('max-min: %d' % (max_capacity - min_capacity,))
 
 
 def calculate_pool_capacity(world, pool, row_down):
