@@ -18,6 +18,7 @@ def calculate_pool_capacity(world, pool, row_down):
     for server_id in pool:
         if server_id not in row_down:
             capacity += world['servers'][server_id].capacity
+    return capacity
 
 
 def calculate_score(world, solution):
