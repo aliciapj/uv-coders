@@ -3,23 +3,28 @@ from collections import namedtuple
 
 UNAVAILABLE = -2
 AVAILABLE = -1
+Server = namedtuple('Server', 'size capacity')
 
 
 def parse(input_file):
+
+    world = {}
+
     with open(file=input_file, mode='r') as f:
-        world = {}
+        num_rows, num_slots, num_unavailables, num_pools, num_servers = f.readline().split(" ")
+        world['rows'] = []
+        for x in range(int(num_rows)):
+            world['rows'].append([AVAILABLE]*int(num_slots))
 
-    server = namedtuple('Server', ['size', 'capacity'])
+        for a in range(int(num_unavailables)):
+            x, y = f.readline().split(" ")
+            world['rows'][int(x)][int(y)] = UNAVAILABLE
 
-    world = dict(
-        rows=[[-2, -1, -1, -1, -1],
-              [-1, -1, -1, -1, -1]],
-        servers=[server(size=3, capacity=10),
-                 server(size=3, capacity=10),
-                 server(size=2, capacity=5),
-                 server(size=1, capacity=5),
-                 server(size=1, capacity=1)],
-        pool_counts=2
-    )
+        world['pool_counts'] = int(num_pools)
+
+        world['servers'] = []
+        for x in range(int(num_servers[:-1])):
+            size, capacity = f.readline().split(" ")
+            world['servers'].append(Server(size=int(size), capacity=int(capacity)))
 
     return world
