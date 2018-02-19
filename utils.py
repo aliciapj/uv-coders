@@ -59,3 +59,16 @@ def calculate_score(world, solution):
             capacities.append(calculate_pool_capacity(world, pool, row_down=row))
 
     return min(capacities)
+
+
+def next_row(world, current_row, up_down):
+    num_rows = len(world['rows'])
+
+    new_row = current_row + up_down
+    new_up_down = up_down
+
+    if new_row == -1 or new_row >= num_rows:
+        new_row = current_row
+        new_up_down = -up_down
+
+    return new_row, new_up_down

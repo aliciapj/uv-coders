@@ -3,7 +3,7 @@ import unittest
 import os
 
 from parse import parse, Server, UNAVAILABLE, AVAILABLE
-from utils import calculate_score
+from utils import calculate_score, next_row
 from solve_javi import find_row_with_space, find_space
 
 class TestCalculateScore(unittest.TestCase):
@@ -37,7 +37,6 @@ class TestCalculateScore(unittest.TestCase):
         )
         self.assertDictEqual(world, expected)
 
-
     def test_find_row_with_space(self):
         rows = [
             [AVAILABLE, AVAILABLE, AVAILABLE, AVAILABLE, AVAILABLE],
@@ -70,3 +69,27 @@ class TestCalculateScore(unittest.TestCase):
 
         self.assertEqual((1, 0), find_row_with_space(rows, 0, 3))
         self.assertEqual((1, 0), find_row_with_space(rows, 2, 3))
+
+    def test_next_row1(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=0, up_down=1)
+        self.assertEqual(new_row, 1)
+        self.assertEqual(new_up_down, 1)
+
+    def test_next_row2(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=1, up_down=1)
+        self.assertEqual(new_row, 1)
+        self.assertEqual(new_up_down, -1)
+
+    def test_next_row3(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=1, up_down=-1)
+        self.assertEqual(new_row, 0)
+        self.assertEqual(new_up_down, -1)
+
+    def test_next_row4(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=0, up_down=-1)
+        self.assertEqual(new_row, 0)
+        self.assertEqual(new_up_down, 1)
