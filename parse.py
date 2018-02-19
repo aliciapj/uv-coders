@@ -3,7 +3,7 @@ from collections import namedtuple
 
 UNAVAILABLE = -2
 AVAILABLE = -1
-Server = namedtuple('Server', 'size capacity')
+Server = namedtuple('Server', 'id size capacity')
 
 
 def parse(input_file):
@@ -23,8 +23,8 @@ def parse(input_file):
         world['pool_counts'] = int(num_pools)
 
         world['servers'] = []
-        for x in range(int(num_servers[:-1])):
+        for i, x in enumerate(range(int(num_servers[:-1]))):
             size, capacity = f.readline().split(" ")
-            world['servers'].append(Server(size=int(size), capacity=int(capacity)))
+            world['servers'].append(Server(id=i, size=int(size), capacity=int(capacity)))
 
     return world

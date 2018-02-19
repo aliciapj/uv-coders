@@ -29,11 +29,11 @@ class TestCalculateScore(unittest.TestCase):
         expected = dict(
             rows=[[-2, -1, -1, -1, -1],
                   [-1, -1, -1, -1, -1]],
-            servers=[Server(3, 10),
-                     Server(3, 10),
-                     Server(2, 5),
-                     Server(1, 5),
-                     Server(1, 1)],
+            servers=[Server(0, 3, 10),
+                     Server(1, 3, 10),
+                     Server(2, 2, 5),
+                     Server(3, 1, 5),
+                     Server(4, 1, 1)],
             pool_counts=2
         )
         self.assertDictEqual(world, expected)
