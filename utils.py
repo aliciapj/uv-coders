@@ -13,6 +13,19 @@ def analyze_world(world):
     pass
 
 
+def calculate_pool_capacity(world, pool, row_down):
+    capacity = 0
+    for server_id in pool:
+        if server_id not in row_down:
+            capacity += world['servers'][server_id].capacity
+
+
 def calculate_score(world, solution):
 
-    return 0
+    capacities = []
+    for row_index, row in enumerate(world['rows']):
+        # suponemos que se viene abajo esta row
+        for pool_id, pool in enumerate(world['pools']):
+            capacities.append(calculate_pool_capacity(world, pool, row_down=row))
+
+    return min(capacities)
