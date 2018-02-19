@@ -1,6 +1,6 @@
 from parse import UNAVAILABLE, AVAILABLE
 from utils import servers_in_row, analyze_capacity_per_row, analyze_capacity_per_pool
-
+from heapq import heappop, heappush
 
 # solve.py
 def solve_simple(world):
@@ -47,7 +47,6 @@ def servers_into_rows(world):
             world['rows'][next_row][slot:slot + next_server.size] = [next_server.id] * next_server.size
 
 
-
 def servers_into_pools(world):
     servers_by_rows = [
         list(servers_in_row(world, row))
@@ -57,21 +56,23 @@ def servers_into_pools(world):
     for r in servers_by_rows:
         print(r)
 
-    next_pool = 0
+    # next_pool = 0
     next_row = 0
     row_count = len(world['rows'])
     pool_count = world['pool_counts']
     remaining_servers = sum(len(servers_in_row) for servers_in_row in servers_by_rows)
-    pools = [[] for _ in range(pool_count)] # defaultdict(list)
+    pools = [(0, []) for _ in range(pool_count)]
 
     while remaining_servers:
         while not servers_by_rows[next_row]:
             next_row = (next_row + 1) % row_count
         next_server = servers_by_rows[next_row].pop(0)
-        pools[next_pool].append(next_server.id)
-        next_pool = (next_pool + 1) % pool_count
+        capacity, next_pool = heappop(pools)
+        next_pool.append(next_server.id)
+        capacity += next_server.capacity
+        heappush(pools, (capacity, next_pool))
         remaining_servers -= 1
 
-    return pools
+    return [pool[1] for pool in pools]
 
 solve = solve_simple
