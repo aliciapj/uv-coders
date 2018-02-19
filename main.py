@@ -3,7 +3,7 @@ import sys
 import time
 
 from parse import parse
-from utils import get_output_file, calculate_score
+from utils import get_output_file, calculate_score, analyze_world
 from writer import write
 
 from solve_javi import solve as solve_javi
@@ -21,7 +21,7 @@ def process_file(solve, input_file):
     output_file = get_output_file(input_file)
 
     world = parse(input_file=os.path.join('./input_files', input_file))
-    # analyze_world(world)
+    analyze_world(world)
     t0 = time.time()
     solution = solve(world)
     t1 = time.time()
