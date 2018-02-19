@@ -1,5 +1,7 @@
 # utils.py
 import os
+from itertools import groupby
+from parse import AVAILABLE, UNAVAILABLE
 
 
 def get_output_file(input_file):
@@ -9,8 +11,22 @@ def get_output_file(input_file):
 
 
 def analyze_world(world):
-    # print interesting things about our world
-    pass
+    total_available_space = sum(row.count(AVAILABLE) for row in world['rows'])
+    total_servers_size = sum(server.size for server in world['servers'])
+    print('Total Available Space: %d' % (total_available_space,))
+    print('Total Servers Size: %d' % (total_servers_size,))
+    print('Total Servers Capacity: %d' % (sum(server.capacity for server in world['servers']),))
+
+
+def servers_in_row(world, row):
+    # group[0] is the server_id
+    return (world['servers'][group[0]] for group in groupby(row) if group[0] not in (UNAVAILABLE, AVAILABLE))
+
+
+def analyze_capacity_per_row(world):
+    for row_id, row in enumerate(world['rows']):
+        row_capacity = sum(server.capacity for server in servers_in_row(world, row))
+        print('row %d, capacity: %d', row_id, row_capacity)
 
 
 def calculate_pool_capacity(world, pool, row_down):
@@ -22,7 +38,6 @@ def calculate_pool_capacity(world, pool, row_down):
 
 
 def calculate_score(world, solution):
-
     capacities = []
     for row_index, row in enumerate(world['rows']):
         # suponemos que se viene abajo esta row
