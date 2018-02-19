@@ -3,7 +3,7 @@ import unittest
 import os
 
 from parse import parse, Server, UNAVAILABLE
-from utils import calculate_score
+from utils import calculate_score, next_row
 
 
 class TestCalculateScore(unittest.TestCase):
@@ -37,3 +37,27 @@ class TestCalculateScore(unittest.TestCase):
             pool_counts=2
         )
         self.assertDictEqual(world, expected)
+
+    def test_next_row1(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=0, up_down=1)
+        self.assertEqual(new_row, 1)
+        self.assertEqual(new_up_down, 1)
+
+    def test_next_row2(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=1, up_down=1)
+        self.assertEqual(new_row, 1)
+        self.assertEqual(new_up_down, -1)
+
+    def test_next_row3(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=1, up_down=-1)
+        self.assertEqual(new_row, 0)
+        self.assertEqual(new_up_down, -1)
+
+    def test_next_row4(self):
+        world = parse(input_file=os.path.join('./input_files', 'example.in'))
+        new_row, new_up_down = next_row(world=world, current_row=0, up_down=-1)
+        self.assertEqual(new_row, 0)
+        self.assertEqual(new_up_down, 1)
