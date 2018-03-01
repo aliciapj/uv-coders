@@ -34,14 +34,14 @@ def distance(start, finish):
     return abs(start.r - finish.r) + abs(start.c - finish.c)
 
 
-def get_ride_by_start_bonus(t, vehicle_position, rides):
+def get_ride_by_start_bonus(t, vehicle, rides):
 
     result_rides = []
 
     for ride in rides:
 
         # calculo la duracion
-        duration = distance(start=vehicle_position, finish=ride['start'])
+        duration = distance(start=vehicle.pos, finish=ride['start'])
 
         # miro si con esa distancia llego al earlier_start
         is_bonus = t + duration <= ride['earliest_start']
