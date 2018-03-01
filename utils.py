@@ -32,3 +32,24 @@ def calculate_score(world, solution):
 
 def distance(start, finish):
     return abs(start.r - finish.r) + abs(start.c - finish.c)
+
+
+def get_ride_by_start_bonus(t, vehicle_position, rides):
+
+    rides = []
+
+    for ride in rides:
+
+        # calculo la duracion
+        duration = distance(start=vehicle_position, finish=ride['start'])
+
+        # miro si con esa distancia llego al earlier_start
+        is_bonus = t + duration <= ride['earliest_start']
+
+        # si si, la meto en la lista de resultados
+        if is_bonus:
+            rides.append(ride)
+
+    ride = rides[0] if rides else None
+
+    return ride
