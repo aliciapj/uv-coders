@@ -26,7 +26,7 @@ def solve(world):
             for ride_pos, ride in enumerate(rides):
                 car = cars[0]
                 car_to_start = distance(car.pos, ride['start'])
-                if t + car_to_start <= ride['latest_start']:   # ride['earliest_start'] <=
+                if t + car_to_start < ride['latest_start']:   # ride['earliest_start'] <=
                     # asignar la ride al coche
                     car = heapq.heappop(cars)
                     del rides[ride_pos]

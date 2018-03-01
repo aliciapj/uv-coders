@@ -23,9 +23,9 @@ def calculate_score(world, solution):
     score = 0
     for car_id, rides in solution.items():
         for ride in rides:
-            bonus_finish = ride['duration'] if ride['real_finish'] <= ride['latest_finish'] else 0
+            bonus_finish = ride['duration'] if ride['real_finish'] < ride['latest_finish'] else 0
             bonus_start = world['bonus'] if ride['real_start'] == ride['earliest_start'] else 0
-            score += bonus_finish + bonus_finish + bonus_start
+            score += (bonus_finish + bonus_start)
 
     return score
 
