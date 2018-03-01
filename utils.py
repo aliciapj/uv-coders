@@ -15,3 +15,7 @@ def analyze_world(world):
 def calculate_score(world, solution):
     score = 0
     return score
+
+
+def duration(start, finish):
+    return abs(start.r - finish.r) + abs(start.c - finish.c)
