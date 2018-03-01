@@ -21,15 +21,39 @@ def calculate_score(world, solution):
 
     score = 0
     for ride in solution['rides']:
-        distance = ride['duration']
 
-        bonus_finish = ride['finish'] - ride['real_finish'] if ride['real_finish'] < ride['finish'] else 0
+        bonus_finish = ride['duration'] if ride['real_finish'] < ride['finish'] else 0
         bonus_start = solution['bonus'] if ride['real_start'] == ride['start'] else 0
 
-        score += distance + bonus_finish + bonus_start
+        score += bonus_finish + bonus_finish + bonus_start
 
     return score
 
 
 def distance(start, finish):
     return abs(start.r - finish.r) + abs(start.c - finish.c)
+
+
+def get_ride_by_start_bonus(t, vehicle, rides):
+
+    result_rides = []
+    ride = None
+
+    for ride in rides:
+
+        # calculo la duracion
+        duration = distance(start=vehicle.pos, finish=ride['start'])
+
+        # miro si con esa distancia llego al earlier_start
+        is_bonus = t + duration <= ride['earliest_start']
+
+        # si si, la meto en la lista de resultados
+        if is_bonus:
+            rides.append(ride)
+
+    if result_rides:
+        # ordeno por las que tienen más duración primero, puesto que si llego en el earliest_start,
+        sorted_rides = sorted(result_rides.items, lambda ride: ride['duration'], reverse=True)
+        ride = sorted_rides[0]
+
+    return ride
