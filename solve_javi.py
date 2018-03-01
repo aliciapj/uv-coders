@@ -9,7 +9,6 @@ import heapq
 Car = namedtuple('Car', 'busy_until id pos')
 
 def solve(world):
-
     cars = [Car(-1, i, Position(0, 0)) for i in range(world['n_cars'])]  # coches ordenados por tiempo en el que se van a quedar libres
     rides = sorted(world['rides'], key=itemgetter('latest_start'))  # rides ordenadas por latest_start
     solution = defaultdict(list)
@@ -18,6 +17,7 @@ def solve(world):
     while t < world['steps'] and len(rides):
         # mirar los coches que están libres
         print('instante %d' % (t,))
+        first_car = cars[0]
         if cars[0].busy_until < t:
             # para cada coche mirar los rides que podría atender, asignarle uno
             for ride_pos, ride in enumerate(rides):
@@ -40,8 +40,12 @@ def solve(world):
                     car_after = Car(busy_until=ride['real_finish'], id=car.id, pos=ride['finish'])
                     heapq.heappush(cars, car_after)
 
+        if first_car == cars[0]:  # couldn't assign anything to this car... get rid of it
+            heapq.heappop(cars)
+
         t += cars[0].busy_until + 1  # avanzo la simulación hasta que el próximo coche se quede libre
 
+    solution = dict(solution)  # freeze defaultdict()
     print('SOLUTION')
-    print(dict(solution))
-    return dict(solution)
+    print(solution)
+    return solution
