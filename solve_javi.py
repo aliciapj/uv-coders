@@ -93,7 +93,7 @@ def solve2(world):
                         print('quedan %d rides por asignar' % (len(rides),))
 
                     ride['real_start'] = max(t + car_to_start, ride['earliest_start'])
-                    ride['real_finish'] = ride['real_start'] + ride['duration']
+                    ride['real_finish'] = ride['real_start'] + ride['duration'] + 1
                     solution[car.id].append(ride)
 
                     # devolverlo a la lista
