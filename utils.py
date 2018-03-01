@@ -36,7 +36,7 @@ def distance(start, finish):
 
 def get_ride_by_start_bonus(t, vehicle_position, rides):
 
-    rides = []
+    result_rides = []
 
     for ride in rides:
 
@@ -50,6 +50,6 @@ def get_ride_by_start_bonus(t, vehicle_position, rides):
         if is_bonus:
             rides.append(ride)
 
-    ride = rides[0] if rides else None
+    ride = result_rides[0] if rides else None
 
     return ride
