@@ -76,7 +76,7 @@ def solve2(world):
                 dist = distance(car.pos, ride['start'])
                 wait = max(0, ride['earliest_start'] - t - dist)
                 win = ride['duration']
-                ride['score'] = win - wait - dist
+                ride['score'] = -dist
 
             rides = sorted(rides, key=itemgetter('score'), reverse=True)  # rides ordenadas por latest_start
 
