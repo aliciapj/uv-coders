@@ -37,7 +37,7 @@ def distance(start, finish):
 def get_ride_by_start_bonus(world, t, vehicle, rides):
 
     if not rides:
-        return []
+        return None
 
     result_rides = []
 
@@ -60,6 +60,41 @@ def get_ride_by_start_bonus(world, t, vehicle, rides):
 
     # ordeno por las que tienen más duración primero, puesto que si llego en el earliest_start,
     sorted_rides = sorted(result_rides, key=lambda ride: ride['score'], reverse=True)
-    # ride = sorted_rides[0]
+    ride = sorted_rides[0]
 
-    return sorted_rides
+    return ride
+
+
+def get_ride_by_start_bonus_apj(world, t, car, rides):
+
+    if not rides:
+        return None
+
+    result_rides = []
+
+    for ride in rides:
+
+        # calculo la duracion
+        ride['to_start_duration'] = distance(start=car['pos'], finish=ride['start'])
+
+        # miro si con esa distancia llego al earlier_start
+        is_bonus_start = t + ride['to_start_duration'] <= ride['earliest_start']
+        bonus_start = world['bonus'] if is_bonus_start else 0
+
+        # miro si con esa distancia llego antes de latest_start
+        is_bonus_end = t + ride['to_start_duration'] < ride['latest_start']
+        bonus_end = ride['duration'] if is_bonus_end else 0
+
+        ride['score'] = bonus_start + bonus_end
+
+
+        result_rides.append(ride)
+
+    # ordeno por las que tienen más duración primero, puesto que si llego en el earliest_start,
+    sorted_score_rides = sorted(result_rides, key=lambda ride: ride['score'], reverse=True)
+    best_score_ride = sorted_score_rides[0]
+    best_scores = [ride for ride in sorted_score_rides if ride['score'] == best_score_ride['score']]
+    sorted_to_start_rides = sorted(best_scores, key=lambda ride: ride['to_start_duration'])
+    ride = sorted_to_start_rides[0]
+
+    return ride
