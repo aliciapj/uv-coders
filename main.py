@@ -34,7 +34,7 @@ def process_file(solve, input_file):
     t2 = time.time()
     print("calculate score took %.1f sec" % (t2 - t1,))
     print("SCORE: %d" % score)
-    write(solution, output_file)
+    write(world, solution, output_file)
     return score
 
 
