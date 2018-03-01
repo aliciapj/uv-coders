@@ -41,7 +41,7 @@ def solve(world):
                     heapq.heappush(cars, car_after)
 
         if first_car == cars[0]:  # couldn't assign anything to this car... get rid of it
-            print("getting rid of car %d" % (car[0].id))
+            print("getting rid of car %d" % (cars[0].id,))
             heapq.heappop(cars)
 
         t += cars[0].busy_until + 1  # avanzo la simulación hasta que el próximo coche se quede libre
