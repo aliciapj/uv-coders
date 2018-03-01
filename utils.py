@@ -31,5 +31,5 @@ def calculate_score(world, solution):
     return score
 
 
-def duration(start, finish):
+def distance(start, finish):
     return abs(start.r - finish.r) + abs(start.c - finish.c)
