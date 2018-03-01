@@ -10,12 +10,9 @@ Position = namedtuple('Position', 'r c')
 def parse(input_file):
     world = {}
 
-    input_file = os.path.join('./input_files', 'a_example.in')
-
     with open(file=input_file, mode='r') as f:
         n_rows, n_columns, n_fleet, n_rides, bonus, steps = f.readline().split(" ")
 
-        world['grid'] = [[0]*int(n_columns)]*int(n_rows)
         world['n_cars'] = int(n_fleet)
         world['rides'] = []
         world['bonus'] = int(bonus)
