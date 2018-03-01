@@ -8,7 +8,7 @@ import heapq
 
 Car = namedtuple('Car', 'busy_until id pos')
 
-DEBUG = False
+DEBUG = True
 
 def solve(world):
     cars = [Car(-1, i, Position(0, 0)) for i in range(world['n_cars'])]  # coches ordenados por tiempo en el que se van a quedar libres
@@ -26,7 +26,7 @@ def solve(world):
             for ride_pos, ride in enumerate(rides):
                 car = cars[0]
                 car_to_start = distance(car.pos, ride['start'])
-                if ride['earliest_start'] <= t + car_to_start <= ride['latest_start']:   # TODO: < o <= ?
+                if t + car_to_start <= ride['latest_start']:   # ride['earliest_start'] <=
                     # asignar la ride al coche
                     car = heapq.heappop(cars)
                     del rides[ride_pos]
@@ -36,8 +36,8 @@ def solve(world):
                         print('a', car)
                         print('quedan %d rides por asignar' % (len(rides),))
 
-                    ride['real_start'] = t + car_to_start
-                    ride['real_finish'] = t + car_to_start + ride['duration']
+                    ride['real_start'] = max(t + car_to_start, ride['earliest_start'])
+                    ride['real_finish'] = ride['real_start'] + ride['duration']
                     solution[car.id].append(ride)
 
                     # devolverlo a la lista
