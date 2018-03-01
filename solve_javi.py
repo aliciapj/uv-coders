@@ -74,11 +74,12 @@ def solve2(world):
 
             for ride in rides:
                 dist = distance(car.pos, ride['start'])
-                wait = max(0, ride['earliest_start'] - t - dist)
-                win = ride['duration'] + (world['bonus'] if wait == 0 else 0)
-                ride['score'] = -dist + wait + win
+                wait = ride['earliest_start'] - t - dist
+                win = ride['duration'] + (world['bonus'] if wait >= 0 else 0)
+                wait = max(0, wait)
+                ride['score'] = win-dist-wait-ride['latest_start'] # win / max(1,dist - wait)
 
-            rides = sorted(rides, key=itemgetter('score'), reverse=True)  # rides ordenadas por latest_start
+            rides = sorted(rides, key=itemgetter('score'), reverse=True)  # rides ordenadas por mejor score
 
             for ride_pos, ride in enumerate(rides):
                 car_to_start = distance(car.pos, ride['start'])
@@ -93,7 +94,7 @@ def solve2(world):
                         print('quedan %d rides por asignar' % (len(rides),))
 
                     ride['real_start'] = max(t + car_to_start, ride['earliest_start'])
-                    ride['real_finish'] = ride['real_start'] + ride['duration'] + 1
+                    ride['real_finish'] = ride['real_start'] + ride['duration']
                     solution[car.id].append(ride)
 
                     # devolverlo a la lista
