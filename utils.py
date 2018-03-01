@@ -21,11 +21,10 @@ def calculate_score(world, solution):
 
     score = 0
     for ride in solution['rides']:
-        distance = ride['duration']
 
-        bonus_finish = ride['finish'] - ride['real_finish'] if ride['real_finish'] < ride['finish'] else 0
+        bonus_finish = ride['duration'] if ride['real_finish'] < ride['finish'] else 0
         bonus_start = solution['bonus'] if ride['real_start'] == ride['start'] else 0
 
-        score += distance + bonus_finish + bonus_start
+        score += bonus_finish + bonus_finish + bonus_start
 
     return score
