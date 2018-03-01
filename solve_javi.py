@@ -13,7 +13,7 @@ def solve(world):
     cars = [Car(0, i, Position(0,0)) for i in range(world['n_cars'])] # coches ordenados por tiempo en el que se van a quedar libres
     rides = [] # rides ordenadas por latest_start
     assignments = []
-    while t < world['T']:
+    while t < world['steps']:
         # mirar los coches que están libres
         while cars[0].busy_until < t:
             # para cada coche mirar los rides que podría atender, asignarle uno
@@ -29,6 +29,8 @@ def solve(world):
                     # devolverlo a la lista
                     car_after = Car(busy_until=t + car_to_start + ride.duration, id=car.id, pos=ride.finish)
                     heapq.heappush(cars, car_after)
+                    
+            t += 1
 
     solution = []
     return solution
