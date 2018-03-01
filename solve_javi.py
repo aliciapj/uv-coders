@@ -8,7 +8,7 @@ import heapq
 
 Car = namedtuple('Car', 'busy_until id pos')
 
-DEBUG = True
+DEBUG = False
 
 def solve(world):
     cars = [Car(-1, i, Position(0, 0)) for i in range(world['n_cars'])]  # coches ordenados por tiempo en el que se van a quedar libres
