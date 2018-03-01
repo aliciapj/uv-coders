@@ -34,10 +34,12 @@ def distance(start, finish):
     return abs(start.r - finish.r) + abs(start.c - finish.c)
 
 
-def get_ride_by_start_bonus(t, vehicle, rides):
+def get_ride_by_start_bonus(world, t, vehicle, rides):
+
+    if not rides:
+        return None
 
     result_rides = []
-    ride = None
 
     for ride in rides:
 
@@ -45,15 +47,19 @@ def get_ride_by_start_bonus(t, vehicle, rides):
         duration = distance(start=vehicle.pos, finish=ride['start'])
 
         # miro si con esa distancia llego al earlier_start
-        is_bonus = t + duration <= ride['earliest_start']
+        is_bonus_start = t + duration <= ride['earliest_start']
 
-        # si si, la meto en la lista de resultados
-        if is_bonus:
-            rides.append(ride)
+        # miro si con esa distancia llego antes de latest_start
+        is_bonus_end = t + duration < ride['latest_start']
 
-    if result_rides:
-        # ordeno por las que tienen más duración primero, puesto que si llego en el earliest_start,
-        sorted_rides = sorted(result_rides.items, lambda ride: ride['duration'], reverse=True)
-        ride = sorted_rides[0]
+        ride['score'] = \
+            world['bonus'] if is_bonus_start else 0 + \
+            ride['duration'] if is_bonus_end else 0
+
+        result_rides.append(ride)
+
+    # ordeno por las que tienen más duración primero, puesto que si llego en el earliest_start,
+    sorted_rides = sorted(result_rides.items, lambda ride: ride['score'], reverse=True)
+    ride = sorted_rides[0]
 
     return ride
