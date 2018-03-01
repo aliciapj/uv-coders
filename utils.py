@@ -1,5 +1,6 @@
 # utils.py
 import os
+from _ast import keyword
 
 
 def get_output_file(input_file):
@@ -36,7 +37,7 @@ def distance(start, finish):
 def get_ride_by_start_bonus(world, t, vehicle, rides):
 
     if not rides:
-        return None
+        return []
 
     result_rides = []
 
@@ -47,18 +48,18 @@ def get_ride_by_start_bonus(world, t, vehicle, rides):
 
         # miro si con esa distancia llego al earlier_start
         is_bonus_start = t + duration <= ride['earliest_start']
+        bonus_start = world['bonus'] if is_bonus_start else 0
 
         # miro si con esa distancia llego antes de latest_start
         is_bonus_end = t + duration < ride['latest_start']
+        bonus_end = ride['duration'] if is_bonus_end else 0
 
-        ride['score'] = \
-            world['bonus'] if is_bonus_start else 0 + \
-            ride['duration'] if is_bonus_end else 0
+        ride['score'] = bonus_start + bonus_end
 
         result_rides.append(ride)
 
     # ordeno por las que tienen más duración primero, puesto que si llego en el earliest_start,
-    sorted_rides = sorted(result_rides.items, lambda ride: ride['score'], reverse=True)
-    ride = sorted_rides[0]
+    sorted_rides = sorted(result_rides, key=lambda ride: ride['score'], reverse=True)
+    # ride = sorted_rides[0]
 
-    return ride
+    return sorted_rides
