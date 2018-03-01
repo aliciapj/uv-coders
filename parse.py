@@ -26,7 +26,7 @@ def parse(input_file):
             from_r, from_c, to_r, to_c, earliest_start, latest_finish = f.readline().split(" ")
             start = Position(r=int(from_r), c=int(from_c))
             finish = Position(r=int(to_r), c=int(to_c))
-            duration = utils.duration(start=start, finish=finish)
+            duration = utils.distance(start=start, finish=finish)
             ride = dict(
                 id=n,
                 start=start,
