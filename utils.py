@@ -28,3 +28,7 @@ def calculate_score(world, solution):
         score += bonus_finish + bonus_finish + bonus_start
 
     return score
+
+
+def distance(start, finish):
+    return abs(start.r - finish.r) + abs(start.c - finish.c)
